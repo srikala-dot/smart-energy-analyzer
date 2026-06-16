@@ -1,8 +1,13 @@
 import streamlit as st
 from backend import crud, database
 
-# This is the title of your app
-st.title("Smart Energy Analytics Platform")
+# Executive Presentation Configuration
+st.set_page_config(
+    page_title="AI-Driven Smart Grid & Household Energy Analytics Platform",
+    page_icon="⚡",
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
 
-# This shows a message to let you know it's working
+st.title("Smart Energy Analytics Platform")
 st.write("Dashboard is loading...")
