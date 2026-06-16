@@ -12,7 +12,7 @@ db = database.SessionLocal()
 
 # 3. Fetch data using your crud file
 # Assuming you have a function named 'get_all_data' in your crud.py
-data = crud.get_all_data(db)
+data = crud.get_datasets(db)
 
 # 4. Display the data
 st.subheader("Household Energy Consumption Data")
