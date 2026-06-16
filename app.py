@@ -1,26 +1,28 @@
 import streamlit as st
 import pandas as pd
-from backend import crud, database
+from backend import crud, database, models
 
 # 1. Setup the page
 st.set_page_config(page_title="Energy Dashboard", layout="wide")
+
+# 2. Create the table structure in the database if it's missing
+models.Base.metadata.create_all(bind=database.engine)
+
 st.title("⚡ Smart Energy Analytics Platform")
 
-# 2. Connect to the database
-# We call the session from your database file
+# 3. Connect to database and fetch data
 db = database.SessionLocal()
-
-# 3. Fetch data using your crud file
-# Assuming you have a function named 'get_all_data' in your crud.py
 data = crud.get_datasets(db)
+db.close()
 
 # 4. Display the data
 st.subheader("Household Energy Consumption Data")
 if data:
-    df = pd.DataFrame(data)
+    df = pd.DataFrame([d.__dict__ for d in data])
+    # Removing internal database columns to keep it clean
+    if "_sa_instance_state" in df.columns:
+        df = df.drop(columns=["_sa_instance_state"])
     st.table(df)
 else:
-    st.write("No data found in the database yet.")
-
-# Close the database connection
-db.close()
+    st.write("The database is connected, but no data has been added yet.")
+    st.info("Tip: Add some energy records to see them appear here.")
