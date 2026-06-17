@@ -8,13 +8,11 @@ def create_dataset(db: Session, filename: str, path: str):
     new_dataset = models.Dataset(filename=filename, filepath=path)
     db.add(new_dataset)
     db.commit()
-    db.refresh(new_dataset)
     return new_dataset
 
-# THIS IS THE PART THAT WAS MISSING OR NOT SAVED
 def delete_dataset(db: Session, dataset_id: int):
     dataset = db.query(models.Dataset).filter(models.Dataset.id == dataset_id).first()
     if dataset:
         db.delete(dataset)
         db.commit()
-    return dataset
+    return True
