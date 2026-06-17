@@ -41,17 +41,17 @@ with tab1:
         st.download_button("📥 Export Logs as CSV", csv, "telemetry.csv")
         
         # Professional Governance Section
-        with st.expander("⚠️ Data Governance (Delete Record)"):
-            d_id = st.number_input("Target Record ID", min_value=1, step=1)
-            # The logic below is now PROTECTED by the button
-            if st.button("Commit Deletion"):
-                db = database.SessionLocal()
-                crud.delete_dataset(db, int(d_id))
-                db.close()
-                st.success(f"Record {d_id} permanently purged.")
-                st.rerun()
-    else:
-        st.info("No records to manage.")
+       with st.expander("⚠️ Data Governance (Delete Record)"):
+    d_id = st.number_input("Target Record ID", min_value=1, step=1)
+    if st.button("Commit Deletion"):
+        db = database.SessionLocal()
+        success = crud.delete_dataset(db, int(d_id))
+        db.close()
+        if success:
+            st.success(f"Record {d_id} permanently purged.")
+            st.rerun()
+        else:
+            st.error("ID not found.")
 
 with tab2:
     st.subheader("Performance Metrics")
