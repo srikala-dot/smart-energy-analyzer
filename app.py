@@ -43,10 +43,14 @@ with tab1:
         # Governance
         with st.expander("⚠️ Data Governance (Delete Record)"):
             d_id = st.number_input("Target Record ID", min_value=1, step=1)
+            
+            # The 'if' block starts here
             if st.button("Commit Deletion"):
                 db = database.SessionLocal()
+                # These lines MUST be indented to the right
                 crud.delete_dataset(db, int(d_id))
                 db.close()
+                st.success(f"Record {d_id} purged.")
                 st.rerun()
     else:
         st.info("No records to manage.")
