@@ -5,14 +5,16 @@ def get_datasets(db: Session):
     return db.query(models.Dataset).all()
 
 def create_dataset(db: Session, filename: str, path: str):
-    new_dataset = models.Dataset(filename=filename, filepath=path)
-    db.add(new_dataset)
+    new_entry = models.Dataset(filename=filename, filepath=path)
+    db.add(new_entry)
     db.commit()
-    return new_dataset
+    db.refresh(new_entry)
+    return new_entry
 
 def delete_dataset(db: Session, dataset_id: int):
-    dataset = db.query(models.Dataset).filter(models.Dataset.id == dataset_id).first()
-    if dataset:
-        db.delete(dataset)
+    entry = db.query(models.Dataset).filter(models.Dataset.id == dataset_id).first()
+    if entry:
+        db.delete(entry)
         db.commit()
-    return True
+        return True
+    return False
