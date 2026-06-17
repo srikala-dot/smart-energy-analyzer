@@ -12,7 +12,6 @@ def create_dataset(db: Session, filename: str, path: str):
     return new_entry
 
 def delete_dataset(db: Session, dataset_id: int):
-    # This is the function your app is failing to find
     entry = db.query(models.Dataset).filter(models.Dataset.id == dataset_id).first()
     if entry:
         db.delete(entry)
