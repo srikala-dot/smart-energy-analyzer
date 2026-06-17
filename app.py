@@ -30,16 +30,22 @@ with tab1:
         st.dataframe(df, use_container_width=True)
         
         with st.expander("⚠️ Data Governance (Delete Record)"):
+        with st.expander("⚠️ Data Governance (Delete Record)"):
             d_id = st.number_input("Target Record ID", min_value=1, step=1)
-            # This 'if' acts as the protection gate
+            
+            # The button starts the logical block
             if st.button("Commit Deletion"):
                 db = database.SessionLocal()
-                crud.delete_dataset(db, int(d_id))
+                # We call the function we just added to crud.py
+                success = crud.delete_dataset(db, int(d_id))
                 db.close()
-                st.success("Record deleted.")
-                st.rerun()
-    else:
-        st.info("No records to manage.")
+                
+                # Handling the result
+                if success:
+                    st.success(f"Record {d_id} permanently purged.")
+                    st.rerun()
+                else:
+                    st.error("ID not found.")
 
 with tab2:
     st.subheader("AI Model Selection")
