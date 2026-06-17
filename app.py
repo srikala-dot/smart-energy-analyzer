@@ -11,13 +11,20 @@ tab1, tab2 = st.tabs(["📊 Data Management", "🧠 AI Executive Analytics"])
 
 with tab1:
     # ... (Your existing ingestion and delete logic) ...
-    with st.expander("⚠️ Data Governance"):
-        d_id = st.number_input("Delete Record ID", min_value=1, step=1)
-        if st.button("Commit Deletion"):
-            db = database.SessionLocal()
-            crud.delete_dataset(db, int(d_id)) # Corrected function call
-            db.close()
-            st.rerun()
+    with st.expander("⚠️ Data Governance (Delete Record)"):
+            d_id = st.number_input("Target Record ID", min_value=1, step=1)
+            
+            # This 'if' is the GATE. Nothing below runs until the button is clicked.
+            if st.button("Commit Deletion"):
+                db = database.SessionLocal()
+                # Indented by 4 spaces here:
+                success = crud.delete_dataset(db, int(d_id))
+                db.close()
+                if success:
+                    st.success(f"Record {d_id} permanently purged.")
+                    st.rerun()
+                else:
+                    st.error("ID not found.")
 
 with tab2:
     st.subheader("Model Selection Panel")
