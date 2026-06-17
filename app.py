@@ -41,17 +41,21 @@ with tab1:
         st.download_button("📥 Export Logs as CSV", csv, "telemetry.csv")
         
         # Professional Governance Section
-       with st.expander("⚠️ Data Governance (Delete Record)"):
-    d_id = st.number_input("Target Record ID", min_value=1, step=1)
+    with st.expander("⚠️ Data Governance (Delete Record)"):
+       d_id = st.number_input("Target Record ID", min_value=1, step=1)
+    
+    # 1. This 'if' is the start of your button logic
     if st.button("Commit Deletion"):
         db = database.SessionLocal()
-        success = crud.delete_dataset(db, int(d_id))
-        db.close()
-        if success:
+        
+        # 2. These lines are properly indented (4 spaces) under the 'if'
+        if crud.delete_dataset(db, int(d_id)):
             st.success(f"Record {d_id} permanently purged.")
             st.rerun()
+        # 3. The 'else' must align perfectly with the 'if' above it
         else:
             st.error("ID not found.")
+        db.close()
 
 with tab2:
     st.subheader("Performance Metrics")
