@@ -30,7 +30,6 @@ with tab1:
         st.dataframe(df, use_container_width=True)
         
         with st.expander("⚠️ Data Governance (Delete Record)"):
-        with st.expander("⚠️ Data Governance (Delete Record)"):
             d_id = st.number_input("Target Record ID", min_value=1, step=1)
             
             # The button starts the logical block
