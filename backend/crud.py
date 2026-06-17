@@ -1,8 +1,10 @@
 from sqlalchemy.orm import Session
 from . import models
 
+
 def get_datasets(db: Session):
     return db.query(models.Dataset).all()
+
 
 def create_dataset(db: Session, filename: str, filepath: str):
     new_dataset = models.Dataset(
@@ -15,6 +17,7 @@ def create_dataset(db: Session, filename: str, filepath: str):
     db.refresh(new_dataset)
 
     return new_dataset
+
 
 def delete_dataset(db: Session, dataset_id: int):
     dataset = (
